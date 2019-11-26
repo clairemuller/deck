@@ -22,6 +22,9 @@ const (
 	Joker
 )
 
+// okay to make it an array because it won't change
+var suits = [...]Suit{Spade, Diamond, Club, Heart}
+
 type Rank uint8
 
 const (
@@ -42,10 +45,29 @@ const (
 	King
 )
 
+// makes it simpler when creating a new deck
+const (
+	minRank = Ace
+	maxRank = King
+)
+
 // add a Stringer so suits don't appear as numbers
 func (c Card) String() string {
 	if c.Suit == Joker {
 		return c.Suit.String()
 	}
 	return fmt.Sprintf("%s of %ss", c.Rank.String(), c.Suit.String())
+}
+
+// New creates a new deck of cards
+func New() []Card {
+	var cards []Card
+
+	for _, suit := range suits {
+		for rank := minRank; rank <= maxRank; rank++ {
+			cards = append(cards, Card{Suit: suit, Rank: rank})
+		}
+	}
+
+	return cards
 }
