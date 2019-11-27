@@ -62,7 +62,7 @@ func (c Card) String() string {
 	return fmt.Sprintf("%s of %ss", c.Rank.String(), c.Suit.String())
 }
 
-// New creates a new deck of cards
+// New creates a new deck of cards and takes in functional options
 func New(opts ...func([]Card) []Card) []Card {
 	var cards []Card
 
@@ -79,10 +79,16 @@ func New(opts ...func([]Card) []Card) []Card {
 }
 
 func DefaultSort(cards []Card) []Card {
+	// sort.Slice sorts the given slice using the given function less(i, j int) bool
+	// here we're calling another function, Less
+	// could just do it like this:
+	// sort.Slice(cards, func(i, j int) bool { return absRank(cards[i]) < absRank(cards[j]) }
 	sort.Slice(cards, Less(cards))
 	return cards
 }
 
+// Less takes in a slice of cards and returns an anonymous less function
+// need to create a closure so that the inner function can access the cards slice
 func Less(cards []Card) func(i, j int) bool {
 	return func(i, j int) bool {
 		return absRank(cards[i]) < absRank(cards[j])
