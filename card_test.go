@@ -25,8 +25,16 @@ func TestNew(t *testing.T) {
 
 func TestDefaultSort(t *testing.T) {
 	cards := New(DefaultSort)
-	want := Card{Suit: Spade, Rank: Three}
+	want := Card{Suit: Spade, Rank: Ace}
 	if cards[0] != want {
 		t.Errorf("Something went wrong with DefaultSort! First card is: %v; Expected: %v", cards[0], want)
+	}
+}
+
+func TestSort(t *testing.T) {
+	cards := New(Sort(Less))
+	want := Card{Suit: Spade, Rank: Three}
+	if cards[0] != want {
+		t.Errorf("Something went wrong with Sort! First card is: %v; Expected: %v", cards[0], want)
 	}
 }

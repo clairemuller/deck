@@ -87,6 +87,13 @@ func DefaultSort(cards []Card) []Card {
 	return cards
 }
 
+func Sort(less func(cards []Card) func(i, j int) bool) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		sort.Slice(cards, less(cards))
+		return cards
+	}
+}
+
 // Less takes in a slice of cards and returns an anonymous less function
 // need to create a closure so that the inner function can access the cards slice
 func Less(cards []Card) func(i, j int) bool {
