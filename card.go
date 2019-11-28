@@ -4,7 +4,9 @@ package deck
 
 import (
 	"fmt"
+	"math/rand"
 	"sort"
+	"time"
 )
 
 type Card struct {
@@ -104,4 +106,25 @@ func Less(cards []Card) func(i, j int) bool {
 
 func absRank(c Card) int {
 	return int(c.Suit)*int(maxRank) + int(c.Rank)
+}
+
+// Shuffle shuffles the cards
+func Shuffle(cards []Card) []Card {
+	// create empty slice with length of given cards slice
+	newCards := make([]Card, len(cards))
+	// The default number generator is deterministic, so it’ll produce the same
+	// sequence of numbers each time by default. To produce varying sequences,
+	// create a new source and give it a seed that changes.
+	// seed is just an int64, common to use time as it's always changing
+	seed := time.Now().Unix()
+	source := rand.NewSource(seed)
+	r := rand.New(source)
+
+	// func Perm(n int) []int
+	// Perm returns a slice of n ints
+	perm := r.Perm(len(cards))
+	for i, j := range perm {
+		newCards[i] = cards[j]
+	}
+	return newCards
 }
