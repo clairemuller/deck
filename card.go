@@ -141,3 +141,18 @@ func Jokers(n int) func([]Card) []Card {
 		return cards
 	}
 }
+
+// Filter takes a function which takes a card and returns a bool,
+// whether it should accept the card or not
+// Filter returns a function that returns a slice of cards
+func Filter(f func(card Card) bool) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		var newCards []Card
+		for _, c := range cards {
+			if !f(c) {
+				newCards = append(newCards, c)
+			}
+		}
+		return newCards
+	}
+}
