@@ -33,8 +33,22 @@ func TestDefaultSort(t *testing.T) {
 
 func TestSort(t *testing.T) {
 	cards := New(Sort(Less))
-	want := Card{Suit: Spade, Rank: Three}
+	want := Card{Suit: Spade, Rank: Ace}
 	if cards[0] != want {
 		t.Errorf("Something went wrong with Sort! First card is: %v; Expected: %v", cards[0], want)
+	}
+}
+
+func TestJokers(t *testing.T) {
+	want := 3
+	cards := New(Jokers(want))
+	count := 0
+	for _, c := range cards {
+		if c.Suit == Joker {
+			count++
+		}
+	}
+	if count != want {
+		t.Errorf("Something went wrong! Not enough Jokers, wanted %d, got %d.", want, count)
 	}
 }
